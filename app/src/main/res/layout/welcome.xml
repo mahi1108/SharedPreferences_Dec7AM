@@ -9,6 +9,7 @@
             android:text=" Welcome : UserName"
             android:textSize="50sp"
             android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"/>
+            android:layout_centerVertical="true"
+            android:id="@+id/welcome_msg"/>
 
 </RelativeLayout>

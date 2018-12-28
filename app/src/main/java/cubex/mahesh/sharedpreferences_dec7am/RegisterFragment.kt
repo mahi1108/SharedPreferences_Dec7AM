@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import kotlinx.android.synthetic.main.register.*
 import kotlinx.android.synthetic.main.register.view.*
 
 class RegisterFragment : Fragment()
@@ -17,15 +19,24 @@ class RegisterFragment : Fragment()
 
         v.submit.setOnClickListener {
 
-            var spf:SharedPreferences = activity!!.getSharedPreferences(
-                "and7amdec", Context.MODE_PRIVATE)
-            var spe:SharedPreferences.Editor = spf.edit()
-            spe.putString("uname",v.username.text.toString())
-            spe.putString("pass",v.pass.text.toString())
-            spe.putString("email",v.email.text.toString())
-            spe.putLong("phoneno",v.mno.text.toString().toLong())
-            spe.commit()
+            if (validations(v)) {
 
+                var spf: SharedPreferences = activity!!.getSharedPreferences(
+                    "and7amdec", Context.MODE_PRIVATE
+                )
+                var spe: SharedPreferences.Editor = spf.edit()
+                spe.putString("uname", v.username.text.toString())
+                spe.putString("pass", v.pass.text.toString())
+                spe.putString("email", v.email.text.toString())
+                spe.putLong("phoneno", v.mno.text.toString().toLong())
+                spe.commit()
+
+                var fManager = activity!!.supportFragmentManager
+                var tx = fManager.beginTransaction()
+                tx.replace(R.id.frag1, LoginFragment())
+                tx.commit()
+
+            }
         }
 
 
@@ -33,4 +44,32 @@ class RegisterFragment : Fragment()
         return v
     }
 
-}
+    fun  validations(v:View):Boolean {
+      var msg = ""
+
+        if(v.username.text.length == 0){
+            msg = "Please Enter User Name"
+        }
+        if(v.pass.text.length == 0){
+            msg = msg + "\n Please Enter Password"
+        }
+        if(v.email.text.length == 0){
+            msg = msg + "\n Please Enter Email"
+        }
+        if(v.mno.text.length != 10){
+            msg = msg + "\n Please Enter Valid Mobile Number"
+        }
+
+        if(msg.equals("")){
+            return  true
+        }else{
+
+            Toast.makeText(activity, msg,Toast.LENGTH_LONG).show()
+
+            return  false
+        }
+
+    }
+
+
+}  // RegisterFragment

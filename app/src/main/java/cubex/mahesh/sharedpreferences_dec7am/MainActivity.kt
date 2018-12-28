@@ -9,5 +9,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        var fManager = supportFragmentManager
+        var tx = fManager.beginTransaction()
+        tx.add(R.id.frag1,LoginFragment())
+        tx.commit()
+
+
     }
 }
